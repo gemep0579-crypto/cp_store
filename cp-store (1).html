@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CP Store</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Tahoma,Arial,sans-serif;background:#0b1020;color:#fff}
+.container{max-width:1050px;margin:auto;padding:24px}
+header{display:flex;justify-content:space-between;align-items:center;padding:16px 0}
+.logo{font-size:28px;font-weight:900;color:#ffd43b}.badge{background:#171e34;padding:9px 14px;border-radius:999px;color:#b9c2d8}
+.hero{background:linear-gradient(135deg,#151d38,#222b4a);border:1px solid #2d3859;border-radius:24px;padding:38px;margin:18px 0 28px;box-shadow:0 20px 60px #0005}
+.hero h1{margin:0 0 12px;font-size:38px}.hero p{color:#c8d0e5;line-height:1.8;margin:0}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.card{background:#12182b;border:1px solid #273250;border-radius:20px;padding:22px;transition:.2s}
+.card:hover{transform:translateY(-3px);border-color:#ffd43b}.cp{font-size:28px;font-weight:900}.price{color:#ffd43b;font-size:20px;margin:12px 0 18px}
+button{width:100%;border:0;border-radius:12px;padding:13px;font-size:16px;font-weight:800;cursor:pointer;background:#ffd43b;color:#171717}
+form{margin-top:28px;background:#12182b;border:1px solid #273250;border-radius:20px;padding:24px}
+label{display:block;margin:12px 0 7px;color:#c8d0e5}input{width:100%;padding:13px;border-radius:10px;border:1px solid #33405f;background:#0c1222;color:#fff;font-size:16px}
+.summary{background:#0c1222;border-radius:12px;padding:15px;margin:18px 0;color:#dfe5f4}
+footer{text-align:center;color:#7f8aa5;padding:30px}
+@media(max-width:750px){.grid{grid-template-columns:1fr}.hero h1{font-size:30px}}
+</style>
+</head>
+<body>
+<div class="container">
+<header><div class="logo">⚡ CP STORE</div><div class="badge">فروش سریع و امن</div></header>
+
+<section class="hero">
+<h1>خرید CP</h1>
+<p>بسته موردنظرت را انتخاب کن، UID بازیکن را وارد کن و سفارش را ثبت کن.</p>
+</section>
+
+<section class="grid" id="products"></section>
+
+<form id="orderForm">
+<h2>ثبت سفارش</h2>
+<label>UID بازیکن</label>
+<input id="uid" required placeholder="مثلاً 123456789">
+
+<label>نام کاربری (اختیاری)</label>
+<input id="username" placeholder="نام داخل بازی">
+
+<div class="summary" id="summary">هنوز بسته‌ای انتخاب نشده است.</div>
+<button type="submit">ثبت سفارش</button>
+</form>
+
+<footer>© 2026 CP Store — نمونه اولیه</footer>
+</div>
+
+<script>
+const products=[
+ {cp:80,price:1.99},{cp:420,price:7.99},{cp:880,price:14.99},
+ {cp:2400,price:39.99},{cp:5000,price:74.99},{cp:10800,price:149.99}
+];
+let selected=null;
+const box=document.getElementById('products'), summary=document.getElementById('summary');
+
+products.forEach((p,i)=>{
+ const card=document.createElement('div');
+ card.className='card';
+ card.innerHTML=`<div class="cp">${p.cp.toLocaleString()} CP</div>
+ <div class="price">$${p.price.toFixed(2)}</div>
+ <button onclick="selectPack(${i})">انتخاب بسته</button>`;
+ box.appendChild(card);
+});
+function selectPack(i){
+ selected=products[i];
+ summary.textContent=`بسته انتخاب‌شده: ${selected.cp.toLocaleString()} CP — $${selected.price.toFixed(2)}`;
+ window.scrollTo({top:document.getElementById('orderForm').offsetTop-20,behavior:'smooth'});
+}
+document.getElementById('orderForm').addEventListener('submit',e=>{
+ e.preventDefault();
+ if(!selected){alert('اول یک بسته CP انتخاب کن.');return}
+ const uid=document.getElementById('uid').value.trim();
+ const username=document.getElementById('username').value.trim();
+ alert(`سفارش آماده شد!\\n${selected.cp} CP\\nUID: ${uid}\\nنام: ${username||'ثبت نشده'}\\n\\nدر نسخه واقعی اینجا باید پرداخت و ثبت سفارش در سرور انجام شود.`);
+});
+</script>
+</body>
+</html>
